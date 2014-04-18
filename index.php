@@ -82,7 +82,7 @@ if(!empty($_POST["welcome"]))
 	echo '<pre>Hello, '.$_POST["welcome"].'!</pre>';
 	if (strpos($_POST["welcome"],'<script>') !== false) {
 	echo '<font color = "3ADF00"><h1>(XSS easy): Pwn3D!</h1></font>';
-	fcount('[XSS EASY] ');
+	fcount('<font color=3ADF00>[XSS EASY] </font>');
 	}
 }
 if(!empty($_POST["welcome2"]))
@@ -91,7 +91,7 @@ if(!empty($_POST["welcome2"]))
 	echo '<pre>Hello, '.$target.'!</pre>';
 	if (strpos(strtolower($target),'<script>') !== false) {
 	echo '<font color = "FF8000"><h1>(XSS medium): Pwn3D!</h1></font>';
-	fcount('[XSS MED] ');
+	fcount('<font color = "FF8000">[XSS MED] </font>');
 	}
 }
 elseif(!empty($_POST["ping"]))
@@ -99,7 +99,7 @@ elseif(!empty($_POST["ping"]))
 	echo '<h3>Ping Results:</h3>';
 	if (strpos($_POST["ping"],';') !== false || strpos($_POST["ping"],'&&') !== false || strpos($_POST["ping"],'|') !== false) {
 	echo '<font color = "3ADF00"><h1>(RCE easy): Pwn3D!</h1></font>';
-	fcount('[RCE EASY] ');
+	fcount('<font color = "3ADF00">[RCE EASY] </font>');
 	}
 	echo '<pre>'.shell_exec('ping -c 2 '.$_POST["ping"]).'</pre>';
 	
@@ -115,7 +115,7 @@ elseif(!empty($_POST["ping2"]))
 	if (strpos($_POST["ping2"],'|') !== false) {
 	if (strlen($_POST["ping2"]) > 2){
 	echo '<font color = "FF8000"><h1>(RCE medium): Pwn3D!</h1></font>';
-	fcount('[RCE MED] ');
+	fcount('<font color = "FF8000">[RCE MED] </font>');
 	}
 	}
 	echo '<pre>'.shell_exec('ping -c 2 '.$target).'</pre>';
@@ -132,7 +132,7 @@ elseif(!empty($_POST["ping3"]))
 		if (strpos($_POST["ping3"],'|') !== false) {
 			if (strpos($_POST["ping3"],' #') !== false) {
 				echo '<font color = "FF0000"><h1>(RCE hard): Pwn3D!</h1></font>';
-				fcount('[RCE HARD] ');
+				fcount('<font color = "FF0000">[RCE HARD] </font>');
 			}
 		$hard = shell_exec('ping -c 2 '.$target.'| /dev/null');
 		echo '<pre>'.$hard.'</pre>';
@@ -151,13 +151,13 @@ elseif(!empty($_GET["page"]))
 if ($_GET["page"] == 'log'){
 	if (strpos($_SERVER['HTTP_USER_AGENT'], '<?php') !== false && strpos($_SERVER['HTTP_USER_AGENT'], '$_GET') !== false){
 		echo '<font color = "FF0000"><h1>(LFI>RCE hard): Pwn3D!</h1></font>';
-		fcount('[LFI>RCE HARD] ');
+		fcount('<font color = "FF0000">[LFI>RCE HARD] </font>');
 	}
 
 	$back = "<img width=700 src='http://www.myessentia.com/blog/wp-content/uploads/2012/10/cuttlefish1.jpeg'></img>";
 }
 elseif ($_GET["page"] == 'config'){
-	fcount('[LFI EASY] ');
+	fcount('<font color = "3ADF00">[LFI EASY] </font>');
 	$back = "<img width=500 src='http://thetruthbehindthescenes.files.wordpress.com/2010/07/cuttlefish-3.jpg'></img>";
 }
 else{
@@ -165,7 +165,7 @@ else{
 }
 echo '<h3 ALIGN="RIGHT">'.strlen($_SESSION['complete']).'/7</h3>';
 if (isset($_SESSION['pwned'])) {
-	if (strlen($_SESSION['pwned']) == 90){
+	if (strlen($_SESSION['pwned']) == 296){
 	echo '<h1>YOU WIN! GAME OVER...</h1>';
 	$back = "<img width=500 src='http://thetruthbehindthescenes.files.wordpress.com/2010/07/cuttlefish-3.jpg'></img>";
 }
