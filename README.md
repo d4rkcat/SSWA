@@ -3,7 +3,7 @@ SSWA
 
 Super secure-webapp..
 
-9 Challenges with 4 types of vulnerability.
+10 Challenges with 4 types of vulnerability.
 
 Usage
 ====

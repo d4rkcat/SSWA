@@ -33,14 +33,19 @@ echo "<!DOCTYPE html>
 		Come again?
 		<form action='index.php?page=main' method='post'>
 			<input type='text' name='welcome2'>
-			<input type='submit' value='Say Hi! (harder)'>
+			<input type='submit' value='Say Hi! (medium)'>
 		</form>
 	</table>
 	<table>
 		Say it louder?
 		<form action='index.php?page=main' method='post'>
 			<input type='text' name='welcome3'>
-			<input type='submit' value='Say Hi! (hardest)'>
+			<input type='submit' value='Say Hi! (hard)'>
+		</form>
+		Wtf?
+		<form action='index.php?page=main' method='post'>
+			<input type='text' name='welcome4'>
+			<input type='submit' value='Say Hi! (hard2)'>
 		</form>
 	</table>
 	<table>
@@ -53,14 +58,14 @@ echo "<!DOCTYPE html>
 		Another ping?
 		<form action='index.php?page=main' method='post'>
 			<input type='text' name='ping2'>
-			<input type='submit' value='Ping Host (harder)'>
+			<input type='submit' value='Ping Host (medium)'>
 		</form>
 	</table>
 	<table>
 	Ping from hell?
 	<form action='index.php?page=main' method='post'>
 		<input type='text' name='ping3'>
-		<input type='submit' value='Ping Host (hardest)'>
+		<input type='submit' value='Ping Host (hard)'>
 	</form>
 	</table>
  ";
@@ -118,12 +123,26 @@ if(!empty($_POST["welcome2"]))
 }
 if(!empty($_POST["welcome3"]))
 {
-	$substitutions = array('<' => '&lt;', '>' => '&gt;');
-	$target = urldecode(str_replace(array_keys($substitutions), $substitutions, $_POST["welcome3"]));
+	$target = str_replace('script>', 'lolwut>', $_POST["welcome3"]);;
 	echo '<!-- <pre>Hello, '.$target."!</pre> -->\r\n";
 	if (strpos(strtolower($target),'<script>') !== false && strpos($target,'-->') !== false) {
 	echo '<font color = "FF0000"><h1>(XSS hard): Pwn3D!</h1></font>'."\r\n";
 	fcount('<font color = "FF0000">[XSS HARD] </font>');
+	}
+}
+if(!empty($_POST["welcome4"]))
+{
+	$substitutions = array('<' => '&lt;', '>' => '&gt;');
+	$target = urldecode(str_replace(array_keys($substitutions), $substitutions, $_POST["welcome4"]));
+	if (mb_substr($target, 0, 5) == 'alert') {
+		echo '<script>no</script>'."\r\n";
+	}
+	else{
+	echo '<script>'.$target."</script>\r\n";
+	}
+	if (strpos(strtolower($target),'</script><script>') !== false) {
+	echo '<font color = "FF0000"><h1>(XSS hard2): Pwn3D!</h1></font>'."\r\n";
+	fcount('<font color = "FF0000">[XSS HARD2] </font>');
 	}
 }
 elseif(!empty($_POST["ping"]))
@@ -193,9 +212,9 @@ elseif ($_GET["page"] == 'admin/config'){
 else{
 	$back = "\r\n<img width=400 src='http://www.daveharasti.com/articles/speciesspotlight/images/cuttlefish2.jpg'></img>";
 }
-echo '<h3 ALIGN="RIGHT">'.strlen($_SESSION['complete']).'/9</h3>';
+echo '<h3 ALIGN="RIGHT">'.strlen($_SESSION['complete']).'/10</h3>';
 if (isset($_SESSION['pwned'])) {
-	if (strlen($_SESSION['pwned']) == 377){
+	if (strlen($_SESSION['pwned']) == 419){
 	echo '<h1>YOU WIN! GAME OVER...</h1>';
 	$back = "\r\n<img width=500 src='http://thetruthbehindthescenes.files.wordpress.com/2010/07/cuttlefish-3.jpg'></img>";
 }
