@@ -8,7 +8,9 @@ Super secure-webapp..
 Usage
 ====
 
-	1. Delete any files in /var/www and place index.php in there.
-	2. Run: service apache2 start
-	3. Visit localhost in the browser.
-	4. Pwn
+	git clone https://github.com/d4rkcat/SSWA
+	rm -rf /var/www/*
+	cp SSWA/index.php /var/www
+	chown -hR www-data /var/www
+	service apache2 start
+	iceweasel localhost &> /dev/null&

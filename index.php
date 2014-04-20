@@ -134,12 +134,7 @@ if(!empty($_POST["welcome4"]))
 {
 	$substitutions = array('<' => '&lt;', '>' => '&gt;');
 	$target = urldecode(str_replace(array_keys($substitutions), $substitutions, $_POST["welcome4"]));
-	if (mb_substr($target, 0, 5) == 'alert') {
-		echo '<script>no</script>'."\r\n";
-	}
-	else{
-	echo '<script>'.$target."</script>\r\n";
-	}
+	echo '<script>hahyeahright, '.$target."</script>\r\n";
 	if (strpos(strtolower($target),'</script><script>') !== false) {
 	echo '<font color = "FF0000"><h1>(XSS hard2): Pwn3D!</h1></font>'."\r\n";
 	fcount('<font color = "FF0000">[XSS HARD2] </font>');
@@ -148,11 +143,14 @@ if(!empty($_POST["welcome4"]))
 elseif(!empty($_POST["ping"]))
 {
 	echo '<h3>Ping Results:</h3>';
+	$easyrce = shell_exec('ping -c 2 '.$_POST["ping"]);
 	if (strpos($_POST["ping"],';') !== false || strpos($_POST["ping"],'&&') !== false || strpos($_POST["ping"],'|') !== false) {
+		if (strlen($easyrce) > 4){
 	echo '<font color = "3ADF00"><h1>(RCE easy): Pwn3D!</h1></font>'."\r\n";
 	fcount('<font color = "3ADF00">[RCE EASY] </font>');
+		}
 	}
-	echo '<pre>'.shell_exec('ping -c 2 '.$_POST["ping"]).'</pre>'."\r\n";
+	echo '<pre>'.$easyrce.'</pre>'."\r\n";
 	
 }
 elseif(!empty($_POST["ping2"]))
@@ -160,26 +158,29 @@ elseif(!empty($_POST["ping2"]))
 	echo '<h3>Ping Results:</h3>'."\r\n";
 	$substitutions = array('&&' => '',';' => '');
 	$target = str_replace(array_keys($substitutions), $substitutions, $_POST["ping2"]);
+	$midrce = shell_exec('ping -c 2 '.$target);
 	if (strpos($_POST["ping2"],'|') !== false) {
-	if (strlen($_POST["ping2"]) > 2){
-	echo '<font color = "FF8000"><h1>(RCE medium): Pwn3D!</h1></font>'."\r\n";
-	fcount('<font color = "FF8000">[RCE MED] </font>');
+		if (strlen($midrce) > 4){
+		echo '<font color = "FF8000"><h1>(RCE medium): Pwn3D!</h1></font>'."\r\n";
+		fcount('<font color = "FF8000">[RCE MED] </font>');
+		}
 	}
-	}
-	echo '<pre>'.shell_exec('ping -c 2 '.$target).'</pre>'."\r\n";
+	echo '<pre>'.$midrce.'</pre>'."\r\n";
 }
 elseif(!empty($_POST["ping3"]))
 {
 	echo '<h3>Ping Results:</h3>';
 	$substitutions = array('&&' => '', ';' => '');
 	$target = str_replace(array_keys($substitutions), $substitutions, $_POST["ping3"]);
+	$hard = shell_exec('ping -c 2 '.$target.'| /dev/null');
 	if (strpos($target,'|') !== false) {
 		if (strpos($_POST["ping3"],'|') !== false) {
 			if (strpos($_POST["ping3"],' #') !== false) {
+				if (strlen($hard) > 4) {
 				echo '<font color = "FF0000"><h1>(RCE hard): Pwn3D!</h1></font>'."\r\n";
 				fcount('<font color = "FF0000">[RCE HARD] </font>');
+				}
 			}
-		$hard = shell_exec('ping -c 2 '.$target.'| /dev/null');
 		echo '<pre>'.$hard.'</pre>'."\r\n";
 		}
 	}
@@ -216,7 +217,7 @@ echo '<h3 ALIGN="RIGHT">'.strlen($_SESSION['complete']).'/10</h3>';
 if (isset($_SESSION['pwned'])) {
 	if (strlen($_SESSION['pwned']) == 419){
 	echo '<h1>YOU WIN! GAME OVER...</h1>';
-	$back = "\r\n<img width=500 src='http://thetruthbehindthescenes.files.wordpress.com/2010/07/cuttlefish-3.jpg'></img>";
+	$back = "\r\n<img width=700 src='http://4.bp.blogspot.com/-64sMbbfWYVE/T6koKrMcUHI/AAAAAAAANeE/6J8A2N9Bdzk/s1600/cuttle-fish-bone.jpg'></img>";
 }
 	echo "\r\n".'<h4>'.$_SESSION['pwned'].'</h4>';
 	echo "\r\n".'<form action="index.php?page=main" method="post"><input type="submit" name="reset" value="RESET"></form>';
